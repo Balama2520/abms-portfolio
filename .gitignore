@@ -1,0 +1,43 @@
+# ──────────────────────────────────────────
+# ABMVSC Portfolio Template — .gitignore
+# ──────────────────────────────────────────
+
+# Backup folders (never commit backups)
+_backup*/
+_backup/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files (never commit secrets)
+.env
+.env.local
+.env.production
+
+# Node (if you ever add a build step)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
