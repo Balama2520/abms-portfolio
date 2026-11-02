@@ -1,0 +1,13 @@
+{
+  "name": "ABMVSC — Technology & Innovation Studio",
+  "short_name": "ABMVSC",
+  "description": "Engineering Ideas. Empowering Tomorrow.",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#10264B",
+  "background_color": "#10264B",
+  "display": "standalone",
+  "start_url": "/"
+}
