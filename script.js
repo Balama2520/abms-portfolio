@@ -114,6 +114,19 @@ const hydratePortfolio = () => {
     `;
   }
 
+  // Dynamic Achievements Cards Hydration
+  const achieveGrid = document.querySelector(".achievement-grid");
+  if (achieveGrid && cfg.achievements && cfg.achievements.length > 0 && !window.location.pathname.includes("studio.html")) {
+    achieveGrid.innerHTML = cfg.achievements.map((ach, idx) => `
+      <article class="achievement-card ${idx === 0 ? "achievement-highlight" : ""}">
+        <p class="achievement-tag">${ach.issuer ? `🏆 ${ach.issuer}` : "Recognition"}</p>
+        <h3>${ach.title || "Achievement"}</h3>
+        <p>${ach.detail || "Honored for technical excellence and software engineering contribution."}</p>
+        ${ach.year ? `<span class="exp-date" style="display:inline-block; margin-top:8px;">${ach.year}</span>` : ""}
+      </article>
+    `).join("");
+  }
+
   // Apply Theme Custom Properties if provided
   if (cfg.theme) {
     const root = document.documentElement;
@@ -410,11 +423,11 @@ document.addEventListener("keydown", (e) => {
 
     offlineArchitecture: "The **Offline-First System Design** in **Smart Task Manager** (95+ Lighthouse Score):\n\n1. **Service Worker Cache-First Strategy:** Core app shell (HTML, CSS, JS, audio) is precached on install, rendering instantly without network connectivity.\n2. **Local Persistence:** Task state mutations, priority queues, and Pomodoro focus timers write directly to `localStorage`.\n3. **Web Speech API Engine:** Speech-to-text processing occurs directly within browser client runtime, enabling voice task creation even completely offline.",
 
-    cvPipeline: "The **SAR Satellite Vision Pipeline** (IEEE Benchmark, 92% mAP):\n\n1. **Speckle Despeckling via Autoencoders:** Synthetic Aperture Radar (SAR) suffers from severe multiplicative speckle noise. A custom **Denoising Autoencoder (DAE)** in PyTorch cleans radar backscatter while preserving sharp structural boundaries (validated at **29.95 PSNR** and **0.99 SSIM** across 5,000+ radar images).\n2. **Detection & Classification:** Denoised imagery is fed into **YOLOv8** with tuned anchor boxes for precise target bounding-box regression.\n3. **Benchmark Validation:** Outperformed classical Gaussian, Median, and Wavelet filters, achieving **92% mean Average Precision (mAP)**.",
+    cvPipeline: "The **Computer Vision & Signal Processing Pipeline**:\n\n1. **Neural Despeckling via Autoencoders:** A custom **Denoising Autoencoder (DAE)** in PyTorch removes multiplicative noise while preserving structural micro-features and crisp boundaries.\n2. **Detection & Classification:** Processed imagery feeds into modern detection backbones with optimized anchor boxes for high-accuracy bounding-box regression.\n3. **Benchmark Validation:** Outperformed classical Gaussian, Median, and Wavelet filters with superior PSNR and edge preservation across 5,000+ images.",
 
     devops: "Our **Cloud & DevOps Architecture**:\n\n• **Docker:** Multi-stage container builds creating lightweight, reproducible environments.\n• **AWS EC2:** Cloud compute hosting with configured Nginx reverse proxies, SSL/TLS, and security groups.\n• **CI/CD:** Automated GitHub Actions pipelines running linting, build verification, and deployment on git push.\n• **Edge Hosting:** Instant global distribution via Netlify and Vercel edge networks.",
 
-    pillars: `The **5 Engineering Pillars of ${co.name || "the Studio"}**:\n\n1. \`</>\` **Software Engineering:** High-performance web applications with type-safe APIs.\n2. 🥞 **AI & Automation:** Custom RAG pipelines, vector indexing, and workflow automation.\n3. 📊 **Data & Analytics:** Deep telemetry, SQL/NoSQL pipelines, and decision dashboards.\n4. 📡 **Satellite & Remote Sensing:** SAR radar processing, speckle reduction, and target detection.\n5. 🧪 **Research & Innovation:** Peer-reviewed publications, benchmarked ML models, and open science.\n\nPhilosophy: **${co.philosophy || "Build • Research • Innovate • Scale • Impact"}**.`,
+    pillars: `The **5 Engineering Pillars of ${co.name || "the Studio"}**:\n\n1. \`</>\` **Software Engineering:** High-performance web applications with type-safe APIs.\n2. 🥞 **AI & Automation:** Custom RAG pipelines, vector indexing, and workflow automation.\n3. 📊 **Data & Analytics:** Deep telemetry, SQL/NoSQL pipelines, and decision dashboards.\n4. ☁️ **Cloud & Distributed Systems:** Containerized microservices, Docker, AWS infrastructure, and CI/CD.\n5. 🧪 **Research & Innovation:** Peer-reviewed publications, benchmarked ML models, and open science.\n\nPhilosophy: **${co.philosophy || "Build • Research • Innovate • Scale • Impact"}**.`,
 
     // ── Projects (auto-built + specific deep-dive entries) ─────────
     projects: buildProjectsText(),
@@ -443,10 +456,10 @@ document.addEventListener("keydown", (e) => {
     achievements: buildAchievementsText(),
 
     // ── Hackathon (specific, preserved from original) ─────────────
-    hackathon: "Recognized as a **National Finalist in Smart India Hackathon**, placing in the **Top 5%** out of 10,000+ participating engineering teams across India for developing an automated digital solution.",
+    hackathon: "Recognized as an engineering finalist across competitive hackathons and open-source challenges for designing and shipping high-performance software architectures.",
 
     // ── Architecture philosophy (preserved from original) ─────────
-    architecture: "Our engineering philosophy is centered on **offline-first reliability, verified benchmarks, and zero unnecessary bloat**. He emphasizes 95+ Lighthouse performance, clean RESTful APIs, and efficient query joins.",
+    architecture: "Our engineering philosophy is centered on **offline-first reliability, verified benchmarks, and zero unnecessary bloat**. We emphasize 95+ Lighthouse performance, clean RESTful APIs, and efficient query execution.",
 
     // ── Contact ───────────────────────────────────────────────────
     contact: `**Email:** ${p.email || "—"}\n**Phone:** ${p.phone || "—"}\n**LinkedIn:** ${p.linkedin || "—"}\n**GitHub:** ${p.github || "—"}`,
@@ -565,9 +578,8 @@ document.addEventListener("keydown", (e) => {
           ? researchLinks.map((r, i) =>
               `<a href="${r.url}" target="_blank" rel="noopener noreferrer" class="chat-action-btn ${i === 0 ? "primary" : ""}">📚 ${r.publisher || "View Paper"}</a>`
             ).join("\n            ")
-          : `<a href="https://ieeexplore.ieee.org/document/11042387" target="_blank" rel="noopener noreferrer" class="chat-action-btn primary">📚 IEEE Paper (Doc #11042387)</a>
-            ${p.researchgate ? `<a href="${p.researchgate}" target="_blank" rel="noopener noreferrer" class="chat-action-btn">🔬 ResearchGate</a>` : '<a href="https://researchgate.net" target="_blank" rel="noopener noreferrer" class="chat-action-btn">🔬 ResearchGate</a>'}
-            ${p.huggingface ? `<a href="${p.huggingface}" target="_blank" rel="noopener noreferrer" class="chat-action-btn">🤗 Hugging Face</a>` : '<a href="https://huggingface.co" target="_blank" rel="noopener noreferrer" class="chat-action-btn">🤗 Hugging Face</a>'}`;
+          : `<a href="https://github.com/Balama2520/abms-portfolio" target="_blank" rel="noopener noreferrer" class="chat-action-btn primary">📚 Studio Research Repos</a>
+            <a href="studio.html#research" class="chat-action-btn">🔬 Research Lab</a>`;
         return `
           <div class="chat-actions">
             ${researchHtml}
@@ -645,18 +657,18 @@ document.addEventListener("keydown", (e) => {
         { q: "latencyOptimization", label: "40% Latency Cut" },
         { q: "ragArchitecture", label: "RAG Pipeline" },
         { q: "offlineArchitecture", label: "Offline PWA" },
-        { q: "cvPipeline", label: "SAR Vision" },
+        { q: "cvPipeline", label: "Computer Vision" },
         { q: "devops", label: "DevOps & Cloud" }
       ],
       skills: [
         { q: "systemDesign", label: "System Design" },
         { q: "projects", label: "View Projects" },
-        { q: "experience", label: "IBM Experience" },
+        { q: "experience", label: "Work Experience" },
         { q: "whyHire", label: "Why Hire Me" },
         { q: "resume", label: "Resume" }
       ],
       research: [
-        { q: "cvPipeline", label: "SAR Pipeline Details" },
+        { q: "cvPipeline", label: "Vision Pipeline" },
         { q: "projects", label: "Projects" },
         { q: "education", label: "Education & Degree" },
         { q: "resume", label: "Resume" }
@@ -689,7 +701,7 @@ document.addEventListener("keydown", (e) => {
       { q: "skills", label: "Skills" },
       { q: "projects", label: "Projects" },
       { q: "studio", label: "ABMVSC Studio" },
-      { q: "research", label: "IEEE Paper" },
+      { q: "howItWorks", label: "⚡ How It Works" },
       { q: "resume", label: "Resume" }
     ]);
 
@@ -723,11 +735,11 @@ document.addEventListener("keydown", (e) => {
     { key: "avrShop", words: ["avr", "avr shop", "farmer", "agriculture", "agritech"] },
     { key: "projects", words: ["project", "projects", "built", "shipped", "portfolio", "app", "apps", "code", "work"] },
     { key: "skills", words: ["skill", "skills", "tech stack", "technology", "stack", "react", "node", "python", "fastapi", "languages", "frameworks", "tools"] },
-    { key: "experience", words: ["experience", "work history", "ibm", "intern", "internship", "ice", "skillsbuild", "roles", "background"] },
+    { key: "experience", words: ["experience", "work history", "roles", "background", "job", "career", "employment", "internship"] },
     { key: "education", words: ["education", "degree", "college", "b.tech", "btech", "university", "graduate", "gpa"] },
-    { key: "research", words: ["research", "ieee", "sar", "satellite", "paper", "denoising", "radar", "publication"] },
+    { key: "research", words: ["research", "paper", "publication", "lab", "study", "scientific", "investigation"] },
     { key: "achievements", words: ["achievement", "achievements", "award", "awards", "certificate", "certifications"] },
-    { key: "hackathon", words: ["hackathon", "sih", "smart india", "finalist"] },
+    { key: "hackathon", words: ["hackathon", "finalist", "competition", "challenge"] },
     { key: "architecture", words: ["engineering philosophy", "clean code"] },
     { key: "hobbies", words: ["hobby", "hobbies", "free time", "interests", "outside work"] },
     { key: "contact", words: ["contact", "email", "phone", "call", "reach", "linkedin", "github", "talk", "message", "address"] },
@@ -975,4 +987,228 @@ document.addEventListener("keydown", (e) => {
       closeChat();
     }
   });
+})();
+
+
+/* ==========================================================================
+   INTERACTIVE PORTFOLIO CONFIGURATOR & DOWNLOAD ENGINE (ABMVSC GROWTH)
+   ========================================================================== */
+(() => {
+  const modal = document.getElementById("generatorModal");
+  const form = document.getElementById("generatorForm");
+  const successBox = document.getElementById("generatorSuccess");
+  if (!modal) return;
+
+  const openGenerator = () => {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (form) form.style.display = "block";
+    if (successBox) successBox.style.display = "none";
+  };
+
+  const closeGenerator = () => {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
+  document.querySelectorAll("[data-generator-open]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openGenerator();
+    });
+  });
+
+  document.querySelectorAll("[data-generator-close]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeGenerator();
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) {
+      closeGenerator();
+    }
+  });
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("genName")?.value?.trim() || "Your Name";
+      const role = document.getElementById("genRole")?.value?.trim() || "Full-Stack Developer";
+      const email = document.getElementById("genEmail")?.value?.trim() || "contact@example.com";
+      const location = document.getElementById("genLocation")?.value?.trim() || "Remote / Global";
+      const github = document.getElementById("genGitHub")?.value?.trim() || "https://github.com";
+      const linkedin = document.getElementById("genLinkedIn")?.value?.trim() || "https://linkedin.com";
+      const project = document.getElementById("genProject")?.value?.trim() || "Flagship SaaS Platform";
+
+      // Compute Initials
+      const initials = name
+        .split(" ")
+        .map((p) => p[0])
+        .filter(Boolean)
+        .slice(0, 3)
+        .join("")
+        .toUpperCase() || "DEV";
+
+      // Save lead locally
+      try {
+        const leads = JSON.parse(localStorage.getItem("abmvsc_studio_leads") || "[]");
+        leads.push({ name, role, email, location, github, linkedin, project, date: new Date().toISOString() });
+        localStorage.setItem("abmvsc_studio_leads", JSON.stringify(leads));
+      } catch (err) {}
+
+      // Build personalized config.js text
+      const generatedConfig = `/**
+ * ABMVSC PORTFOLIO CONFIG — Generated for ${name}
+ * Single Source of Truth · Powered by ABMVSC Technology & Innovation Studio
+ */
+window.PORTFOLIO_CONFIG = {
+  personal: {
+    name: ${JSON.stringify(name)},
+    initials: ${JSON.stringify(initials)},
+    role: ${JSON.stringify(role)},
+    tagline: "Engineering Ideas Into Real-World Impact.",
+    bio: "Full-Stack Engineer building modern web applications, distributed APIs, and intelligent AI platforms. Open to high-impact opportunities.",
+    photo: "assets/engineer-avatar.svg",
+    resume: "resume.pdf",
+    location: ${JSON.stringify(location)},
+    availability: "Available for Opportunities",
+    email: ${JSON.stringify(email)},
+    phone: "",
+    linkedin: ${JSON.stringify(linkedin)},
+    github: ${JSON.stringify(github)},
+    twitter: "",
+    website: "",
+    huggingface: "",
+    researchgate: ""
+  },
+  seo: {
+    siteUrl: "https://your-site.netlify.app",
+    ogImage: "og-image.png",
+    locale: "en_US",
+    googleVerification: ""
+  },
+  company: {
+    name: "ABMVSC Studio",
+    descriptor: "Technology & Innovation Studio",
+    tagline: "Engineering Ideas. Empowering Tomorrow.",
+    philosophy: "Build • Research • Innovate • Scale • Impact",
+    description: "An independent, founder-led technology studio building intelligent software, AI-powered products, data-driven systems, and research-led solutions.",
+    founderRole: "Founder & Lead Engineer",
+    studioUrl: "studio.html",
+    logo: {
+      primary: "assets/logo/abmvsc-official-logo.svg",
+      white: "assets/logo/abmvsc-official-logo-white.svg",
+      mono: "assets/logo/abmvsc-logo-mono.svg",
+      symbol: "assets/logo/abmvsc-symbol.svg",
+      avatar: "assets/logo/abmvsc-avatar.svg"
+    }
+  },
+  skills: {
+    summary: "Full-stack web engineering, distributed systems, RAG architectures, and cloud deployments.",
+    categories: [
+      { name: "Frontend", items: ["React.js", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"] },
+      { name: "Backend & APIs", items: ["Node.js", "Express.js", "FastAPI", "REST APIs", "Python"] },
+      { name: "Databases", items: ["MongoDB", "PostgreSQL", "Redis", "Vector Databases"] },
+      { name: "AI & ML", items: ["PyTorch", "LangChain", "OpenCV", "RAG Pipelines"] },
+      { name: "Cloud & DevOps", items: ["Docker", "AWS EC2", "GitHub Actions CI/CD", "Netlify"] }
+    ]
+  },
+  projects: [
+    {
+      name: ${JSON.stringify(project)},
+      category: "Flagship Application",
+      description: "Production web application engineered with modern frontend, scalable APIs, and robust data persistence.",
+      tech: ["React", "Node.js", "PostgreSQL", "Docker"],
+      liveUrl: "https://your-site.netlify.app",
+      githubUrl: ${JSON.stringify(github)},
+      result: "High-performance architecture with sub-100ms API response targets."
+    },
+    {
+      name: "Dual-Database CMS Engine",
+      category: "CMS Architecture",
+      description: "Hybrid dual-database content management architecture combining PostgreSQL and MongoDB with containerized microservices.",
+      tech: ["React", "Node.js", "PostgreSQL", "MongoDB", "Docker"],
+      liveUrl: "https://o8m-giakaa-cms.vercel.app/",
+      githubUrl: "https://github.com",
+      result: "40% API latency cut through composite indexing and query projection."
+    },
+    {
+      name: "Smart Offline-First Task Hub",
+      category: "Productivity PWA",
+      description: "Privacy-focused progressive web app with voice task input via Web Speech API, Pomodoro focus timer, and zero-cloud local persistence.",
+      tech: ["Vanilla JavaScript", "Service Workers", "Web Speech API", "LocalStorage"],
+      liveUrl: "https://saarthi-link.netlify.app/",
+      githubUrl: "https://github.com",
+      result: "95+ Google Lighthouse audit score across Performance and PWA."
+    }
+  ],
+  experience: [
+    {
+      role: ${JSON.stringify(role)},
+      company: "Cloud Innovations Lab",
+      type: "Full-Time / Contract",
+      duration: "2024 – Present",
+      location: ${JSON.stringify(location)},
+      description: "Architected scalable frontend and backend systems. Implemented automated CI/CD testing and cloud deployment pipelines.",
+      highlights: ["Full-Stack Engineering", "CI/CD Deployment", "High Performance"]
+    }
+  ],
+  education: {
+    degree: "B.S. in Computer Science & Engineering",
+    branch: "Computer Science & Engineering",
+    university: "University of Technology",
+    location: "Global",
+    duration: "2020 – 2024",
+    gpa: "First Class with Distinction",
+    description: "Specialized in distributed systems, software architecture, and modern web application development."
+  },
+  research: [],
+  achievements: [
+    {
+      title: "Full-Stack Architecture Certified",
+      issuer: "ABMVSC Studio",
+      year: "2026",
+      detail: "Certified in building and deploying production-ready full-stack applications."
+    }
+  ],
+  chatbot: {
+    assistantName: "${name}'s AI Assistant",
+    greeting: "Hello! I am ${name}'s AI assistant. Ask me about their projects, skills, or how to get in touch.",
+    studioGreeting: "Welcome to ABMVSC! Ask me about our engineering pillars, products, or collaboration opportunities.",
+    customResponses: {
+      whyHire: "${name} brings strong engineering fundamentals, clean code practices, and a commitment to shipping reliable production software.",
+      pricing: "For engagement inquiries or full-time opportunities, reach out directly at ${email}.",
+      hobbies: "Passionate about software architecture, open-source technology, and engineering high-impact tools.",
+      fallback: "I am trained on ${name}'s portfolio. Ask about skills, projects, experience, or how to get in touch!"
+    }
+  },
+  theme: {
+    primaryColor: "#10264B",
+    accentColor: "#FF7900",
+    blueColor: "#2563EB",
+    fontHeading: "'Space Grotesk', sans-serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'IBM Plex Mono', monospace"
+  }
+};
+`;
+
+      // Trigger instant file download
+      const blob = new Blob([generatedConfig], { type: "application/javascript" });
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = "config.js";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+
+      // Transition to success state
+      form.style.display = "none";
+      if (successBox) successBox.style.display = "block";
+    });
+  }
 })();
