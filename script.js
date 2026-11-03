@@ -380,6 +380,8 @@ document.addEventListener("keydown", (e) => {
   // preserved; they can be overridden via customResponses in config.js.
   const brain = {
 
+    templateGuide: "**How the ABMVSC Dual-Platform System Works:**\n\n1. **Single Source of Truth (\`config.js\`):** Edit your name, contact info, projects, skills, and studio branding in \`config.js\`. Both \`index.html\` and \`studio.html\` update automatically!\n2. **Zero Build Dependencies:** Pure, high-performance HTML5, modern CSS3, and vanilla JS — no npm install, no bundler lag.\n3. **Context-Aware AI Assistant:** I read directly from your \`config.js\` data in real time, answering questions about your skills, projects, and contact info without requiring an external AI backend!\n4. **Instant Global Deployment:** Drag and drop this folder to Netlify, or push to GitHub Pages for instant global edge deployment.\n\nType **projects**, **skills**, or **system design** to explore further!",
+
     // ── Greetings ─────────────────────────────────────────────────
     greetings: [
       chat.greeting ||
@@ -507,6 +509,13 @@ document.addEventListener("keydown", (e) => {
     const projectButtons = buildProjectActionButtons();
 
     switch (intentKey) {
+      case "templateGuide":
+        return `
+          <div class="chat-actions">
+            <a href="https://github.com/Balama2520/abms-portfolio" target="_blank" rel="noopener noreferrer" class="chat-action-btn primary">⭐ Fork on GitHub</a>
+            <a href="studio.html" class="chat-action-btn">🏢 Visit ABMVSC Studio</a>
+            <button type="button" class="chat-action-btn" data-q="projects">🚀 See Live Projects</button>
+          </div>`;
       case "resume":
         return `
           <div class="chat-actions">
@@ -690,6 +699,7 @@ document.addEventListener("keydown", (e) => {
   };
 
   const intentRules = [
+    { key: "templateGuide", words: ["template", "how does this work", "how to use", "how to edit", "config.js", "customize", "how to launch", "how to deploy", "how this system works", "clone", "fork"] },
     { key: "resume", words: ["resume", "cv", "pdf", "curriculum vitae", "download resume", "view resume"] },
     { key: "botInfo", words: ["who are you", "are you ai", "are you a bot", "are you real", "what is this bot", "which ai"] },
     { key: "summary", words: ["summary", "overview", "tell me about yourself", "introduction", "bio", "profile", "background"] },
@@ -742,6 +752,14 @@ document.addEventListener("keydown", (e) => {
 
   const getAnswer = (intentKey) => {
     switch (intentKey) {
+      case "templateGuide": return brain.templateGuide;
+      case "templateGuide":
+        return `
+          <div class="chat-actions">
+            <a href="https://github.com/Balama2520/abms-portfolio" target="_blank" rel="noopener noreferrer" class="chat-action-btn primary">⭐ Fork on GitHub</a>
+            <a href="studio.html" class="chat-action-btn">🏢 Visit ABMVSC Studio</a>
+            <button type="button" class="chat-action-btn" data-q="projects">🚀 See Live Projects</button>
+          </div>`;
       case "resume": return brain.resume;
       case "summary": return brain.summary;
       case "location": return brain.location;

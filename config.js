@@ -49,7 +49,7 @@ window.PORTFOLIO_CONFIG = {
     // Your profile photo filename. Drop the file into the project root
     // (same folder as index.html) and write just the filename here.
     // Example: "photo.jpg"  or  "assets/images/me.png"
-    photo: "assets/avatar.svg",
+    photo: "assets/engineer-avatar.svg",
 
     // Your resume PDF filename. Same rule as photo above.
     // Example: "resume.pdf"
